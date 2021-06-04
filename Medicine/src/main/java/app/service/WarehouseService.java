@@ -15,12 +15,12 @@ import java.util.List;
 @Service
 public class WarehouseService
 {
-    private RepositoryKeyObject<Product, Medicament> productRepository;
-    private IRepository<Score> scoreRepository;
-    private RepositoryKeyObject<Purchase, Customer> purchaseRepository;
-    private IRepository<Customer> customerRepository;
-    private IRepository<Medicament> medicamentRepository;
-    private IRepository<Offer> offerRepository;
+    private final RepositoryKeyObject<Product, Medicament> productRepository;
+    private final IRepository<Score> scoreRepository;
+    private final RepositoryKeyObject<Purchase, Customer> purchaseRepository;
+    private final IRepository<Customer> customerRepository;
+    private final IRepository<Medicament> medicamentRepository;
+    private final IRepository<Offer> offerRepository;
 
     @Autowired
     public WarehouseService(IRepository<Score> scoreRepository, RepositoryKeyObject<Purchase, Customer> purchaseRepository,
@@ -63,7 +63,6 @@ public class WarehouseService
 
     private Score calculateScore(@NonNull Medicament medicament, @NonNull Customer customer, @NonNull Integer count, @NonNull Integer delay)
     {
-
         Score score = new Score( 0d, 10, medicament, count, customer);/////customer
         Double price = count * medicament.getPrice();
         score.setCost( score.getCost() + (delay < 30 ? price/ 2 : price));
@@ -90,7 +89,6 @@ public class WarehouseService
 
     private void spendPurchaseToCustomer(Customer customer)
     {
-
         List<Purchase> purchases = purchaseRepository.getAllBy(customer);
         for(Purchase purchase: purchases)
         {
@@ -98,14 +96,10 @@ public class WarehouseService
             if(purchase.getDelay() <= 0) {
                 Offer offer = new Offer(customer, null, purchase.getCount(), purchase.getMedicament());
                 offerRepository.save(offer);
-
-                //customer.getOffers().add(offer);
                 List<Score> scores = buyProductByOffer(offer);
-
                 for(Score score : scores) {
                     scoreRepository.save(score);
                 }
-                //System.out.println(customer);
                 purchase.setDelay(purchase.getTimeDelay());
             }
            purchaseRepository.update(purchase);
@@ -124,13 +118,18 @@ public class WarehouseService
         revision();
     }
 
-    public List<Score> buy(Customer customer, Medicament medicament, int count)
+    public List<ScoreDto> buy(OfferDto offerDto)
     {
-        Offer offer = new Offer(customer, null, count, medicament);
+        Customer customer = customerRepository.get(offerDto.getCustomer().getId());
+        Medicament medicament = medicamentRepository.get(offerDto.getMedicament().getId());
+        Offer offer = new Offer(customer, null, offerDto.getCount(), medicament);
         offerRepository.save(offer);
         List<Score> scores = buyProductByOffer(offer);
-        for(Score score: scores)
+        List<ScoreDto> scoreDtos = new LinkedList<>();
+        for(Score score: scores) {
             scoreRepository.save(score);
-        return scores;
+            scoreDtos.add(new ScoreDto(score.getCost(),score.getDate(),offerDto.getMedicament(), score.getCount(), offerDto.getCustomer()));
+        }
+        return scoreDtos;
     }
 }

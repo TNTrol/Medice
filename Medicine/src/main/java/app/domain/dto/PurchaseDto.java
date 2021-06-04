@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PurchaseDto
 {
-    private static int counter = 0;
-    private Integer id = counter++;
+    private Integer id ;
     private MedicamentDto medicament;
     private Integer count;
     private Integer delay;

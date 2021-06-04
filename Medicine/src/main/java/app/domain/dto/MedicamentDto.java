@@ -9,13 +9,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MedicamentDto
 {
-    private static int counter = 0;
-    private Integer id = counter++;
+    private Integer id ;
     private String name;
-    private TypeMedicament type;
+    private String type;
     private Double price;
 
-    public MedicamentDto(String name, TypeMedicament type, Double price)
+    public MedicamentDto(String name, String type, Double price)
     {
         this.name = name;
         this.type = type;

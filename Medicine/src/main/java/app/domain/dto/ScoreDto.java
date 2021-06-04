@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ScoreDto
 {
-    private static int counter = 0;
-    private Integer id = counter++;
+    private Integer id ;
     private CustomerDto customer;
     private Double cost;
     private Integer date;

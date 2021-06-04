@@ -12,16 +12,15 @@ import java.util.List;
 @AllArgsConstructor
 public class CustomerDto
 {
-    private static int counter = 0;
-    private Integer id = counter++;
+    private Integer id ;
     private String name;
     private String numberPhone;
     private String address;
 
-    private List<DiscountCardDto> discountCards = new ArrayList<>();
-    private List<PurchaseDto> purchases = new ArrayList<>();
-    private List<ScoreDto> scores = new ArrayList<>();
-    private List<OfferDto> offers = new ArrayList<>();
+//    private List<DiscountCardDto> discountCards = new ArrayList<>();
+//    private List<PurchaseDto> purchases = new ArrayList<>();
+//    private List<ScoreDto> scores = new ArrayList<>();
+//    private List<OfferDto> offers = new ArrayList<>();
 
     public CustomerDto(String name, String numberPhone, String address)
     {

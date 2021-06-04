@@ -26,10 +26,16 @@ public class AppendService
     @Autowired
     private IRepository<Medicament> medicamentRepository;
 
-    public void addMedicament(List<Product> products)
+    public void addMedicament(List<ProductDto> products)
     {
-        for (Product product : products)
-            productRepository.save(product);
+        for (ProductDto product : products) {
+            Medicament medicament = medicamentRepository.get(product.getMedicament().getId());
+            Product product1 = new Product();
+            product1.setDelay(product.getDelay());
+            product1.setMedicament(medicament);
+            product1.setCount(product.getCount());
+            productRepository.save(product1);
+        }
     }
 
     public void generateProduction()

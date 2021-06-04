@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class OfferDto
 {
-    private static int counter = 0;
-    private Integer id = counter++;
+    private Integer id ;
     private CustomerDto customer;
     private DiscountCardDto discountCard;
     private Integer count;
