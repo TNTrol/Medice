@@ -16,6 +16,7 @@ import java.util.List;
 public class CustomerRepositoryHibernate implements IRepository<Customer>
 {
 
+
     private  HibernateConfig _hibernateConfig = new HibernateConfig();
 
 //    @Autowired

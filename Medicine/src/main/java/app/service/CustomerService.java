@@ -46,7 +46,6 @@ public class CustomerService
             medicamentDto.setId(medicament.getId());
             medicamentDtos.add(medicamentDto);
         }
-
         return medicamentDtos;
     }
 }
